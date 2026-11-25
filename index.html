@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff1e8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>Nhà của Tin — Nhàn Thoại</title>
+  <meta name="description" content="Nhàn Thoại — những dòng chữ của Tin (Nguyễn Hồng Phúc), được gia đình giữ lại để mọi người cùng đọc, cùng khám phá và cùng tiếp tục hành trình.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500..700&family=Lora:ital,wght@0,400;0,500;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=11">
+</head>
+<body class="home">
+
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="brand" href="#top"><span class="brand-mark"></span>Nhà của Tin</a>
+        <nav class="nav-links">
+          <a href="#hanh-trinh">Hành trình</a>
+          <a href="#sach">Quyển sách</a>
+          <a href="#kham-pha">Khám phá</a>
+          <a href="#gia-tri">Giá trị</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Nhà của Tin · 1991 → mãi về sau</p>
+          <h1>Những dòng chữ của Tin,<br><span class="grad">cho hành trình phía trước</span></h1>
+          <p class="lead">
+            Tin yêu công nghệ, yêu học hỏi và luôn tò mò về thế giới. Gia đình giữ lại <em>Nhàn Thoại</em> ở đây —
+            để mọi người cùng đọc, cùng khám phá, và cùng tiếp tục những điều Tin đã bắt đầu.
+          </p>
+          <p class="hero-name"><b>Nguyễn Hồng Phúc (Tin)</b> · 04/02/1991 – 18/12/2025</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="read.html">Đọc sách</a>
+            <a class="btn btn-ghost" href="read.html#random">Mở một trang bất kỳ</a>
+          </div>
+
+          <!-- shown only when this visitor has already started reading (saved in their own browser) -->
+          <div class="resume" id="resume">
+            <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg></span>
+            <span class="tx"><b>Tiếp tục đọc từ chỗ bạn đã dừng</b><small id="resumeWhere"></small></span>
+            <a class="btn btn-primary" id="resumeBtn" href="read.html">Đọc tiếp</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="sun" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><g id="rays"></g></svg>
+          </div>
+          <div class="portrait-frame">
+            <img src="assets/img/portrait-happy.jpg" alt="Tin đang mỉm cười">
+          </div>
+          <span class="float-chip f1">Công nghệ</span>
+          <span class="float-chip f2">Học hỏi</span>
+          <span class="float-chip f3">Khám phá</span>
+          <span class="float-chip f4">Tò mò</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALBUM -->
+    <section class="album" id="hanh-trinh">
+      <div class="container">
+        <div class="section-head center reveal">
+          <p class="eyebrow">Album gia đình</p>
+          <h2>Tin trong những ngày vui</h2>
+          <p class="lead">Vài tấm ảnh mà gia đình muốn giữ lại.</p>
+        </div>
+        <div class="polaroids">
+          <figure class="polaroid reveal" style="--tilt:-3deg">
+            <img src="assets/img/g5.jpg" alt="Tin ngày tốt nghiệp" loading="lazy" style="object-position:50% 18%">
+            <figcaption>Ngày tốt nghiệp</figcaption>
+          </figure>
+          <figure class="polaroid reveal" style="--tilt:2.5deg">
+            <img src="assets/img/g6.jpg" alt="Sinh nhật 27 tuổi của Tin" loading="lazy" style="object-position:50% 30%">
+            <figcaption>Sinh nhật 27 tuổi</figcaption>
+          </figure>
+          <figure class="polaroid reveal" style="--tilt:-2deg">
+            <img src="assets/img/g2.jpg" alt="Tin cầm chiếc nón" loading="lazy" style="object-position:50% 30%">
+            <figcaption>Một buổi dạo chơi</figcaption>
+          </figure>
+          <figure class="polaroid reveal" style="--tilt:3deg">
+            <img src="assets/img/g3.jpg" alt="Tin đi chơi ngày nắng" loading="lazy" style="object-position:50% 30%">
+            <figcaption>Nắng đẹp, đi chơi thôi</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE BOOK -->
+    <section class="the-book" id="sach">
+      <div class="container">
+        <div class="book-panel reveal">
+          <div class="book-row">
+            <div class="book-wrap">
+              <div class="book" aria-label="Bìa sách">
+                <small>Di sản của vô minh</small>
+                <h3>Nhàn Thoại</h3>
+                <em class="sub">Tuyên ngôn của một kẻ tầm thường</em>
+                <span class="author">NGUYỄN HỒNG PHÚC</span>
+              </div>
+            </div>
+            <div>
+              <p class="eyebrow">Quyển sách của Tin</p>
+              <h2>Nhàn Thoại — mở trang nào cũng được</h2>
+              <p class="lead">
+                Tin tự giới thiệu quyển sách là “sưu tầm, trích dịch, bình chú và chém gió là chính”.
+                Hai trăm mục để đọc thong thả, lúc nào tò mò thì ghé.
+              </p>
+              <blockquote class="verse">
+                Lời quê chắp nhặt dông dài,<br>Mua vui cũng được một vài trống canh.
+                <cite>Nguyễn Du — Truyện Kiều · câu Tin dẫn lại trong sách</cite>
+              </blockquote>
+              <div class="hero-cta">
+                <a class="btn btn-primary" href="read.html">Đọc sách</a>
+                <a class="btn btn-light" href="read.html#random">Mở một trang bất kỳ</a>
+                <a class="btn btn-light" href="assets/Nhan-Thoai-Nguyen-Hong-Phuc.pdf" download="Nhan-Thoai-Nguyen-Hong-Phuc.pdf">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Tải bản PDF
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORE -->
+    <section class="explore" id="kham-pha">
+      <div class="container">
+        <div class="section-head center reveal">
+          <p class="eyebrow">Khám phá</p>
+          <h2>Đi theo sự tò mò của Tin</h2>
+          <p class="lead">Chọn một chủ đề hoặc một cái tên, rồi xem Tin đã viết gì về nó trong sách.</p>
+        </div>
+
+        <div class="explore-group reveal">
+          <h3>Những chủ đề Tin hay nghĩ tới</h3>
+          <p class="hint">số lần xuất hiện trong sách</p>
+          <div class="chips" id="topics"></div>
+        </div>
+
+        <div class="explore-group reveal">
+          <h3>Những người Tin hay trò chuyện cùng</h3>
+          <p class="hint">triết gia, nhà văn, họa sĩ truyện tranh, phim ảnh</p>
+          <div class="chips" id="people"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE ROAD AHEAD (bản nháp — gia đình sẽ viết lại bằng lời của mình) -->
+    <section class="ahead" id="gia-tri">
+      <div class="container">
+        <div class="ahead-panel reveal">
+          <div class="section-head center">
+            <p class="eyebrow">Giá trị</p>
+            <h2>Giá trị của Nhàn Thoại sẽ còn lớn lên</h2>
+            <p class="lead">
+              Tin để lại những dòng chữ này như một hạt giống. Gia đình sẽ cùng nhau gìn giữ,
+              và tiếp tục tạo ra những điều tốt đẹp từ đó.
+            </p>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 35V19"/><path d="M20 21c0-6 4-10 11-10 0 7-4 10-11 10z"/><path d="M20 25c0-5-3-8-9-8 0 6 3 8 9 8z"/></svg>
+              <span class="n">01</span>
+              <h3>Gìn giữ</h3>
+              <p>Gia đình giữ cho những dòng chữ của Tin luôn ở đây, nguyên vẹn như Tin đã viết.</p>
+            </article>
+            <article class="step">
+              <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="11" cy="20" r="4"/><circle cx="29" cy="10" r="4"/><circle cx="29" cy="30" r="4"/><path d="M14.6 18.2l10.8-6.4M14.6 21.8l10.8 6.4"/></svg>
+              <span class="n">02</span>
+              <h3>Chia sẻ</h3>
+              <p>Để bạn bè, và những thế hệ sau trong gia đình, có thể đọc và tò mò như Tin đã từng.</p>
+            </article>
+            <article class="step">
+              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5l3.2 8.8L32 17l-8.8 3.2L20 29l-3.2-8.8L8 17l8.8-3.2z"/><path d="M31 27l1.2 3.3 3.3 1.2-3.3 1.2L31 36l-1.2-3.3-3.3-1.2 3.3-1.2z"/></svg>
+              <span class="n">03</span>
+              <h3>Viết tiếp</h3>
+              <p>Từ những điều Tin bắt đầu, gia đình sẽ tiếp tục tạo ra những giá trị mới trong tương lai.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="brand"><span class="brand-mark"></span>Nhà của Tin</div>
+      <p>Sự yêu thương của gia đình · Nguyễn Hồng Phúc (Tin) · 1991 – 2025</p>
+    </div>
+  </footer>
+
+  <script>
+    const q = (s) => encodeURIComponent(s);
+
+    // sun rays behind the portrait
+    (function () {
+      let s = '';
+      for (let i = 0; i < 36; i++) {
+        const a = (i / 36) * Math.PI * 2, r1 = i % 2 ? 40 : 38, r2 = i % 2 ? 44 : 49;
+        s += '<line x1="' + (50 + Math.cos(a) * r1).toFixed(2) + '" y1="' + (50 + Math.sin(a) * r1).toFixed(2) +
+             '" x2="' + (50 + Math.cos(a) * r2).toFixed(2) + '" y2="' + (50 + Math.sin(a) * r2).toFixed(2) + '"/>';
+      }
+      document.getElementById('rays').innerHTML = s;
+    })();
+
+    // "continue reading" — reads the place saved by reader.js in THIS browser (nothing is sent anywhere)
+    (function () {
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem('resume') || 'null'); } catch (e) {}
+      if (!saved || !(saved.pg >= 1)) return;
+      fetch('data/book.json').then(r => r.json()).then(book => {
+        let idx = 1, label = '';
+        outer: for (const s of book.sections) {
+          for (const p of s.pages) {
+            if (idx === saved.pg) {
+              const name = s.id === 'open' ? 'Mở đầu' : s.id === 'end' ? 'Cuối sách' : 'Phần ' + s.label;
+              const e = p.entries ? (p.entries[0] === p.entries[1] ? ' · Mục ' + p.entries[0] : ' · Mục ' + p.entries[0] + '–' + p.entries[1]) : '';
+              label = name + e;
+              break outer;
+            }
+            idx++;
+          }
+        }
+        document.getElementById('resumeWhere').textContent = (label ? label + ' · ' : '') + 'trang ' + saved.pg + ' / ' + book.totals.pages;
+        document.getElementById('resumeBtn').href = 'read.html#p' + saved.pg;
+        document.getElementById('resume').classList.add('show');
+      }).catch(() => {});
+    })();
+
+    // recurring themes, counted from his own text at build time
+    fetch('data/topics.json').then(r => r.json()).then(list => {
+      const max = Math.max(...list.map(t => t.n)), min = Math.min(...list.map(t => t.n));
+      const box = document.getElementById('topics');
+      list.forEach(({ t, n }) => {
+        const a = document.createElement('a');
+        a.className = 'chip';
+        a.href = 'read.html?q=' + q(t);
+        const k = (Math.sqrt(n) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);   // 0..1
+        a.style.fontSize = (0.95 + k * 0.7).toFixed(2) + 'rem';
+        a.innerHTML = t + ' <i>' + n.toLocaleString('vi-VN') + '</i>';
+        box.appendChild(a);
+      });
+    });
+
+    // people Tin quotes in the book (every name appears in the text)
+    const people = [
+      ['Friedrich Nietzsche', 'Nietzsche'], ['George Orwell', 'Orwell'], ['Lão Tử', 'Lão Tử'], ['Socrates', 'Socrates'],
+      ['Alfred Adler', 'Adler'], ['Ishida Sui', 'Ishida Sui'], ['Hajime Isayama', 'Isayama'], ['Albert Camus', 'Camus'],
+      ['Pablo Picasso', 'Picasso'], ['Hayao Miyazaki', 'Miyazaki'], ['Trang Tử', 'Trang Tử'], ['Nguyễn Du', 'Nguyễn Du'],
+      ['Trịnh Công Sơn', 'Trịnh Công Sơn'], ['Rei Hiroe', 'Rei Hiroe'],
+    ];
+    const colors = ['#ff7a59', '#e8497e', '#9a6cf0', '#3cb7a0', '#4aa3e0'];
+    const pbox = document.getElementById('people');
+    people.forEach(([label, term], i) => {
+      const a = document.createElement('a');
+      a.className = 'chip people';
+      a.style.setProperty('--c', colors[i % colors.length]);
+      a.href = 'read.html?q=' + q(term);
+      a.textContent = label;
+      pbox.appendChild(a);
+    });
+
+    // gentle fade-in on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
