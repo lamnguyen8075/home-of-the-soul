@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500..700&family=Lora:ital,wght@0,400;0,500;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="styles.css?v=17">
 </head>
 <body class="home">
 
@@ -150,7 +150,21 @@
           <h3>Những chủ đề Tin hay nghĩ tới</h3>
           <p class="hint">chữ càng to, Tin càng nhắc nhiều · chạm vào một chữ để xem Tin viết gì</p>
           <div class="cloud-art">
-            <span class="orb o1" aria-hidden="true"></span><span class="orb o2" aria-hidden="true"></span><span class="orb o3" aria-hidden="true"></span>
+            <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="cloudFill" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="570">
+                  <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#fff0f3"/><stop offset=".8" stop-color="#ffe0ea"/><stop offset="1" stop-color="#e9dcff"/>
+                </linearGradient>
+                <symbol id="cloudShape" viewBox="0 0 1000 640" preserveAspectRatio="none">
+                  <rect x="70" y="340" width="860" height="230" rx="115"/>
+                  <circle cx="215" cy="400" r="140"/><circle cx="410" cy="272" r="190"/><circle cx="650" cy="262" r="195"/><circle cx="830" cy="410" r="145"/><circle cx="535" cy="215" r="130"/>
+                </symbol>
+              </defs>
+            </svg>
+            <svg class="cloud-svg" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true"><use href="#cloudShape" fill="url(#cloudFill)"/></svg>
+            <svg class="mini m1" viewBox="0 0 1000 640" aria-hidden="true"><use href="#cloudShape" fill="#d6eefc"/></svg>
+            <svg class="mini m2" viewBox="0 0 1000 640" aria-hidden="true"><use href="#cloudShape" fill="#e7ddff"/></svg>
+            <svg class="mini m3" viewBox="0 0 1000 640" aria-hidden="true"><use href="#cloudShape" fill="#ffd9d0"/></svg>
             <span class="spark k1" aria-hidden="true">✦</span><span class="spark k2" aria-hidden="true">✦</span>
             <span class="spark k3" aria-hidden="true">✦</span><span class="spark k4" aria-hidden="true">✦</span>
             <div class="cloud" id="topics"></div>
@@ -262,7 +276,7 @@
         const a = document.createElement('a');
         a.href = 'read.html?q=' + q(t);
         const k = (Math.sqrt(n) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);   // 0..1
-        a.style.fontSize = (1.15 + k * 2.9).toFixed(2) + 'rem';
+        a.style.fontSize = 'calc(var(--cs, 1) * ' + (1.15 + k * 2.9).toFixed(2) + 'rem)';
         a.style.setProperty('--c', hues[(sorted.findIndex(s => s.t === t)) % hues.length]);
         a.style.setProperty('--tilt', tilts[i % tilts.length] + 'deg');
         a.dataset.n = n.toLocaleString('vi-VN') + ' lần';
