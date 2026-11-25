@@ -24,13 +24,9 @@ function getResume() {
   const old = +store.get("pg");                        // older versions only stored the page number
   return old >= 1 ? { pg: old, y: 0 } : null;
 }
-function scrollFraction() {
-  const h = document.documentElement, max = h.scrollHeight - h.clientHeight;
-  return max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
-}
 function saveResume() {
   if (current < 1 || !PAGES.length) return;           // the title page is not "a place in the book"
-  store.set("resume", JSON.stringify({ pg: current, y: +scrollFraction().toFixed(4), t: Date.now() }));
+  store.set("resume", JSON.stringify({ pg: current, y: +pageScrollFrac(current).toFixed(4), t: Date.now() }));
   store.set("pg", current);
 }
 function jumpTo(y) {                                    // instant scroll, even though the site uses smooth scrolling
@@ -123,32 +119,123 @@ function renderCover() {
     </div>`;
 }
 
-async function render() {
-  const pg = PAGES[current], art = $("#page");
-  let html;
-  if (pg.cover) {
-    html = renderCover();
+async function htmlForPage(idx) {
+  const pg = PAGES[idx];
+  if (pg.cover) return renderCover();
+  const blocks = (await loadSection(pg.sec.id))[pg.i];
+  const s = pg.sec;
+  let html = "";
+  if (pg.i === 0) {
+    const imgs = s.images.map((im) => `<figure class="interlude"><img src="${im.src}" alt="" loading="lazy">${im.cap ? `<figcaption>${esc(im.cap)}</figcaption>` : ""}</figure>`).join("");
+    html += `<header class="section-open"><p class="eyebrow">${s.id === "open" || s.id === "end" ? "" : "Phần"}</p><h1>${s.id === "open" ? "Mở đầu" : s.id === "end" ? "Cuối sách" : s.label}</h1><div class="ornament"></div>${imgs}</header>`;
   } else {
-    const blocks = (await loadSection(pg.sec.id))[pg.i];
-    const s = pg.sec;
-    html = "";
-    if (pg.i === 0) {
-      const imgs = s.images.map((im) => `<figure class="interlude"><img src="${im.src}" alt="" loading="lazy">${im.cap ? `<figcaption>${esc(im.cap)}</figcaption>` : ""}</figure>`).join("");
-      html += `<header class="section-open"><p class="eyebrow">${s.id === "open" || s.id === "end" ? "" : "Phần"}</p><h1>${s.id === "open" ? "Mở đầu" : s.id === "end" ? "Cuối sách" : s.label}</h1><div class="ornament"></div>${imgs}</header>`;
-    } else {
-      html += `<p class="running">${sectionTitle(s)}${pg.meta.cont ? ` · Mục ${pg.meta.cont} (tiếp)` : ""}</p>`;
-    }
-    html += `<div class="prose">${blocks.map(renderBlock).join("")}</div>`;
+    html += `<p class="running">${sectionTitle(s)}${pg.meta.cont ? ` · Mục ${pg.meta.cont} (tiếp)` : ""}</p>`;
   }
-  art.innerHTML = html;
+  html += `<div class="prose">${blocks.map(renderBlock).join("")}</div>`;
+  return html;
+}
+
+function sliceAt(idx) { return document.querySelector(`.page-slice[data-idx="${idx}"]`); }
+function mountedIdx() {
+  return [...document.querySelectorAll(".page-slice")].map((n) => +n.dataset.idx).sort((a, b) => a - b);
+}
+function yOf(node) { return node.getBoundingClientRect().top + window.scrollY; }
+function bindCover(root) {
   const rs = getResume();
-  $("#startBtn")?.addEventListener("click", () => rs ? go(rs.pg, null, rs.y) : go(1));
-  $("#fromStart")?.addEventListener("click", () => go(1));
+  root.querySelector("#startBtn")?.addEventListener("click", () => rs ? go(rs.pg, null, rs.y) : go(1));
+  root.querySelector("#fromStart")?.addEventListener("click", () => go(1));
+}
+function updateChrome() {
   $("#prev").disabled = current === 0;
   $("#next").disabled = current === PAGES.length - 1;
   $("#pos").textContent = current === 0 ? "" : `Trang ${current} / ${PAGES.length - 1}`;
   syncToc();
   try { history.replaceState(null, "", "#p" + current); } catch (e) {}
+}
+
+const KEEP_BEHIND = 2, KEEP_AHEAD = 5;
+const inflight = {};
+let streamGen = 0;
+async function mountPage(idx, where, gen = streamGen) {
+  if (idx < 0 || idx >= PAGES.length) return null;
+  if (sliceAt(idx)) return sliceAt(idx);
+  if (inflight[idx]) return inflight[idx];
+  inflight[idx] = (async () => {
+    const html = await htmlForPage(idx);
+    if (gen !== streamGen) return null;
+    if (sliceAt(idx)) return sliceAt(idx);
+    const art = el("article", "page page-slice");
+    art.dataset.idx = String(idx);
+    art.innerHTML = html;
+    const stream = $("#stream");
+    if (where === "prepend" && stream.firstChild) {
+      const before = document.documentElement.scrollHeight;
+      stream.insertBefore(art, stream.firstChild);
+      jumpTo(window.scrollY + (document.documentElement.scrollHeight - before));
+    } else {
+      stream.appendChild(art);
+    }
+    bindCover(art);
+    return art;
+  })();
+  try { return await inflight[idx]; }
+  finally { delete inflight[idx]; }
+}
+
+function pruneSlices() {
+  const keepMin = Math.max(0, current - KEEP_BEHIND);
+  const keepMax = Math.min(PAGES.length - 1, current + KEEP_AHEAD);
+  for (const n of [...document.querySelectorAll(".page-slice")]) {
+    const i = +n.dataset.idx;
+    if (i < keepMin) {
+      const gone = n.offsetHeight + 22;
+      n.remove();
+      jumpTo(Math.max(0, window.scrollY - gone));
+    } else if (i > keepMax) n.remove();
+  }
+}
+
+async function ensureNeighbors() {
+  const gen = streamGen;
+  for (let n = 0; n < 6; n++) {
+    if (gen !== streamGen) return;
+    const have = mountedIdx();
+    if (!have.length) return;
+    const first = have[0], last = have[have.length - 1];
+    const h = document.documentElement;
+    const nearBottom = h.scrollHeight - (h.scrollTop + h.clientHeight) < 1400;
+    const nearTop = h.scrollTop < 900;
+    let did = false;
+    if (nearBottom && last < PAGES.length - 1) { await mountPage(last + 1, "append", gen); did = true; }
+    if (nearTop && first > 0) { await mountPage(first - 1, "prepend", gen); did = true; }
+    if (!did) break;
+  }
+  if (gen === streamGen) pruneSlices();
+}
+
+function syncCurrentFromScroll() {
+  const marker = 110;
+  let best = current;
+  document.querySelectorAll(".page-slice").forEach((n) => {
+    const r = n.getBoundingClientRect();
+    if (r.top <= marker && r.bottom > marker) best = +n.dataset.idx;
+  });
+  if (best !== current) {
+    current = best;
+    updateChrome();
+  }
+}
+
+function pageScrollFrac(idx) {
+  const node = sliceAt(idx);
+  if (!node) return 0;
+  const max = node.offsetHeight - window.innerHeight;
+  if (max <= 0) return 0;
+  return Math.min(1, Math.max(0, (window.scrollY - yOf(node)) / max));
+}
+function restoreFrac(node, frac) {
+  const max = Math.max(0, node.offsetHeight - window.innerHeight);
+  jumpTo(yOf(node) + (frac > 0 ? frac * max : 0));
 }
 
 function syncToc() {
@@ -158,15 +245,34 @@ function syncToc() {
   $(".toc-link.on")?.scrollIntoView({ block: "nearest" });
 }
 
-function go(idx, anchor, frac) {
-  current = Math.max(0, Math.min(PAGES.length - 1, idx));
-  return render().then(() => {
-    if (anchor) document.getElementById(anchor)?.scrollIntoView({ block: "start" });
-    else if (frac > 0) { const h = document.documentElement; jumpTo(frac * Math.max(0, h.scrollHeight - h.clientHeight)); }
-    else jumpTo(0);
-    $("#toc").classList.remove("open");
-    saveResume();
-  });
+let goSeq = 0;
+async function go(idx, anchor, frac) {
+  const seq = ++goSeq;
+  idx = Math.max(0, Math.min(PAGES.length - 1, idx | 0));
+  current = idx;
+  let node = sliceAt(idx);
+  if (!node) {
+    streamGen++;
+    const gen = streamGen;
+    $("#stream").innerHTML = "";
+    node = await mountPage(idx, "append", gen);
+    if (seq !== goSeq) return;
+    await mountPage(idx + 1, "append", gen);
+    if (seq !== goSeq) return;
+  } else {
+    await mountPage(idx + 1, "append");
+    await mountPage(idx - 1, "prepend");
+  }
+  if (seq !== goSeq) return;
+  if (anchor) {
+    const target = document.getElementById(anchor);
+    if (target) jumpTo(Math.max(0, yOf(target) - 88));
+    else restoreFrac(node, 0);
+  } else restoreFrac(node, frac || 0);
+  updateChrome();
+  $("#toc").classList.remove("open");
+  saveResume();
+  ensureNeighbors();
 }
 
 /* ---------- controls ---------- */
@@ -201,12 +307,13 @@ function applyTheme(t) {
 document.querySelectorAll(".swatch").forEach((s) => (s.onclick = () => applyTheme(s.dataset.t)));
 
 window.addEventListener("scroll", () => {
-  const h = document.documentElement;
-  const within = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
-  $("#progress").style.width = (((current - 1 + within) / (PAGES.length - 1)) * 100).toFixed(2) + "%";
+  syncCurrentFromScroll();
+  const within = pageScrollFrac(current);
+  $("#progress").style.width = (((Math.max(0, current - 1) + within) / Math.max(1, PAGES.length - 1)) * 100).toFixed(2) + "%";
   clearTimeout(saveTimer); saveTimer = setTimeout(saveResume, 350);
-});
-let saveTimer;
+  clearTimeout(loadTimer); loadTimer = setTimeout(ensureNeighbors, 80);
+}, { passive: true });
+let saveTimer, loadTimer;
 window.addEventListener("pagehide", saveResume);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveResume(); });
 

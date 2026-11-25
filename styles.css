@@ -480,6 +480,7 @@ body.reader[data-theme="night"] .toc-sec, body.reader[data-theme="night"] .toc-c
 .toc-link.on .t { color: var(--r-accent); }
 
 /* page */
+#stream { display: flex; flex-direction: column; gap: 1.4rem; }
 .page {
   background: var(--r-paper); border: 1px solid var(--glass-border); border-radius: 30px; box-shadow: var(--glass-rim), var(--glass-drop);
   padding: clamp(2rem, 6vw, 4.5rem) clamp(1.3rem, 7vw, 5.5rem);
