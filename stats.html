@@ -6,15 +6,18 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#fff1e8">
   <title>Thống kê — Nhà của Tin</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=28">
+  <link rel="stylesheet" href="styles.css?v=30">
   <style>
     .st { width: min(1080px, 94vw); margin: 0 auto; padding: calc(24px + env(safe-area-inset-top)) 0 4rem; }
     .st-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
-    .st-top h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0; }
+    .st-top h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0; display: flex; align-items: center; gap: .55rem; }
+    .st-top h1 .brand-mark { width: 40px; height: 40px; }
     .st-top a.back { color: var(--ink-soft); text-decoration: none; font: 600 .9rem var(--font-ui); }
     .st-top a.back:hover { color: var(--coral-deep); }
     .st-src { font: .8rem var(--font-ui); color: var(--ink-soft); margin: .2rem 0 0; }
@@ -56,7 +59,7 @@
   <main class="st">
     <div class="st-top">
       <div>
-        <h1>Thống kê truy cập</h1>
+        <h1><span class="brand-mark" aria-hidden="true"></span> Thống kê truy cập</h1>
         <p class="st-src" id="src">Đang tải…</p>
       </div>
       <a class="back" href="index.html">← Về trang chủ</a>

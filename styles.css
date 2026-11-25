@@ -104,13 +104,14 @@ h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); }
 .btn-ghost:hover, .btn-light:hover { background: rgba(255, 255, 255, .66); }
 .btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---------- Brand mark (the sun) ---------- */
+/* ---------- Brand mark (the smiling sun) ---------- */
 .brand { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; text-decoration: none; display: flex; align-items: center; gap: .55rem; }
 .brand-mark {
-  width: 32px; height: 32px; flex: none; display: block; transition: transform .8s ease;
-  background: url("favicon.svg") center / contain no-repeat;
+  width: 36px; height: 36px; flex: none; display: block; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1);
+  background: url("assets/icons/sun-256.png?v=2") center / contain no-repeat;
+  filter: drop-shadow(0 2px 4px rgba(210, 90, 40, .22));
 }
-.brand:hover .brand-mark { transform: rotate(45deg); }
+.brand:hover .brand-mark { transform: rotate(14deg) scale(1.08); }
 
 /* ---------- Nav (a floating glass pill) ---------- */
 .nav { position: sticky; top: 0; z-index: 20; padding: max(10px, env(safe-area-inset-top)) 0 0; }
@@ -127,7 +128,7 @@ h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); }
 @media (max-width: 720px) { .nav-links { gap: .9rem; } .nav-links a { font-size: .8rem; } .brand { font-size: 1.05rem; } .nav-inner { padding: 0 .9rem; } }
 @media (max-width: 460px) {
   .nav-links { gap: .65rem; } .nav-links a { font-size: .76rem; } .nav-links a:nth-child(n+4) { display: none; }
-  .brand { font-size: .98rem; gap: .4rem; } .brand-mark { width: 26px; height: 26px; } .nav-inner { padding: 0 .75rem; height: 56px; }
+  .brand { font-size: .98rem; gap: .4rem; } .brand-mark { width: 30px; height: 30px; } .nav-inner { padding: 0 .75rem; height: 56px; }
 }
 
 /* ---------- Sections ---------- */
@@ -161,12 +162,14 @@ section { padding: clamp(3.6rem, 8vw, 6rem) 0; }
 /* portrait + a rising sun behind it + floating interests */
 .hero-visual { position: relative; width: min(380px, 84%); margin-inline: auto; aspect-ratio: 1 / 1.08; }
 .sun {
-  position: absolute; z-index: 0; width: 128%; aspect-ratio: 1; left: 50%; top: 46%; transform: translate(-50%, -50%); pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 140, 100, .55) 0 28%, rgba(255, 170, 130, .28) 42%, transparent 66%);
+  position: absolute; z-index: 0; width: 132%; aspect-ratio: 1; left: 50%; top: 44%; transform: translate(-50%, -50%); pointer-events: none;
 }
-.sun svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 140s linear infinite; }
-.sun svg line { stroke: rgba(255, 122, 89, .5); stroke-width: 1.6; stroke-linecap: round; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.sun img {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(255, 130, 50, .38));
+  animation: sun-float 8s ease-in-out infinite;
+}
+@keyframes sun-float { 50% { transform: translateY(-6px) rotate(3deg); } }
 .portrait-frame {   /* polaroid, a little crooked and happy */
   position: relative; z-index: 1; width: 100%; height: 100%; padding: 14px 14px 52px; background: #fff; border-radius: 10px;
   transform: rotate(-2.5deg); box-shadow: 0 30px 56px -24px rgba(200, 70, 60, .55), 0 2px 8px rgba(120, 50, 50, .12);
@@ -352,6 +355,7 @@ section { padding: clamp(3.6rem, 8vw, 6rem) 0; }
 /* ---------- Footer ---------- */
 .footer { padding: 1rem 0 calc(2.4rem + env(safe-area-inset-bottom)); text-align: center; color: var(--ink-soft); font-size: .9rem; }
 .footer .brand { justify-content: center; margin-bottom: .5rem; color: var(--ink); }
+.footer .brand-mark { width: 44px; height: 44px; }
 .footer p { margin: 0; }
 #footSun { transition: transform .3s cubic-bezier(.3, 1.5, .5, 1); cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
@@ -363,7 +367,7 @@ section { padding: clamp(3.6rem, 8vw, 6rem) 0; }
 .polaroid.reveal.in:hover { transform: rotate(0) translateY(-6px) scale(1.03); }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .sun svg, .float-chip { animation: none; }
+  .sun img, .float-chip { animation: none; }
   html { scroll-behavior: auto; }
 }
 
