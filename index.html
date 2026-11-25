@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500..700&family=Lora:ital,wght@0,400;0,500;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=24">
 </head>
 <body class="home">
 
@@ -179,10 +179,11 @@
       </div>
     </section>
 
-    <!-- THE ROAD AHEAD (bản nháp — gia đình sẽ viết lại bằng lời của mình) -->
+    <!-- GIÁ TRỊ (bản nháp — gia đình sẽ viết lại bằng lời của mình) -->
     <section class="ahead" id="gia-tri">
       <div class="container">
-        <div class="ahead-panel reveal">
+        <div class="gt reveal">
+          <div class="gt-orb" aria-hidden="true"></div>
           <div class="section-head center">
             <p class="eyebrow">Giá trị</p>
             <h2>Giá trị của Nhàn Thoại sẽ còn lớn lên</h2>
@@ -191,25 +192,37 @@
               và tiếp tục tạo ra những điều tốt đẹp từ đó.
             </p>
           </div>
-          <div class="steps">
-            <article class="step">
-              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 35V19"/><path d="M20 21c0-6 4-10 11-10 0 7-4 10-11 10z"/><path d="M20 25c0-5-3-8-9-8 0 6 3 8 9 8z"/></svg>
-              <span class="n">01</span>
-              <h3>Gìn giữ</h3>
-              <p>Gia đình giữ cho những dòng chữ của Tin luôn ở đây, nguyên vẹn như Tin đã viết.</p>
-            </article>
-            <article class="step">
-              <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="11" cy="20" r="4"/><circle cx="29" cy="10" r="4"/><circle cx="29" cy="30" r="4"/><path d="M14.6 18.2l10.8-6.4M14.6 21.8l10.8 6.4"/></svg>
-              <span class="n">02</span>
-              <h3>Chia sẻ</h3>
-              <p>Để bạn bè, và những thế hệ sau trong gia đình, có thể đọc và tò mò như Tin đã từng.</p>
-            </article>
-            <article class="step">
-              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5l3.2 8.8L32 17l-8.8 3.2L20 29l-3.2-8.8L8 17l8.8-3.2z"/><path d="M31 27l1.2 3.3 3.3 1.2-3.3 1.2L31 36l-1.2-3.3-3.3-1.2 3.3-1.2z"/></svg>
-              <span class="n">03</span>
-              <h3>Viết tiếp</h3>
-              <p>Từ những điều Tin bắt đầu, gia đình sẽ tiếp tục tạo ra những giá trị mới trong tương lai.</p>
-            </article>
+
+          <div class="gt-path">
+            <svg class="gt-line" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="gtGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+                  <stop offset="0" stop-color="#ff7a59"/><stop offset=".5" stop-color="#e8497e"/><stop offset="1" stop-color="#9158dc"/>
+                </linearGradient>
+              </defs>
+              <path class="echo" d="M0 100 C 60 100, 100 85, 167 85 S 400 45, 500 45 S 770 85, 833 85 S 940 100, 1000 100"/>
+              <path class="main" pathLength="1" d="M0 90 C 60 90, 100 75, 167 75 S 400 35, 500 35 S 770 75, 833 75 S 940 90, 1000 90"/>
+            </svg>
+            <ol class="gt-steps">
+              <li>
+                <span class="gt-node"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 35V19"/><path d="M20 21c0-6 4-10 11-10 0 7-4 10-11 10z"/><path d="M20 25c0-5-3-8-9-8 0 6 3 8 9 8z"/></svg></span>
+                <span class="n">01</span>
+                <h3>Gìn giữ</h3>
+                <p>Gia đình giữ cho những dòng chữ của Tin luôn ở đây, nguyên vẹn như Tin đã viết.</p>
+              </li>
+              <li>
+                <span class="gt-node"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="11" cy="20" r="4"/><circle cx="29" cy="10" r="4"/><circle cx="29" cy="30" r="4"/><path d="M14.6 18.2l10.8-6.4M14.6 21.8l10.8 6.4"/></svg></span>
+                <span class="n">02</span>
+                <h3>Chia sẻ</h3>
+                <p>Để bạn bè, và những thế hệ sau trong gia đình, có thể đọc và tò mò như Tin đã từng.</p>
+              </li>
+              <li>
+                <span class="gt-node"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5l3.2 8.8L32 17l-8.8 3.2L20 29l-3.2-8.8L8 17l8.8-3.2z"/><path d="M31 27l1.2 3.3 3.3 1.2-3.3 1.2L31 36l-1.2-3.3-3.3-1.2 3.3-1.2z"/></svg></span>
+                <span class="n">03</span>
+                <h3>Viết tiếp</h3>
+                <p>Từ những điều Tin bắt đầu, gia đình sẽ tiếp tục tạo ra những giá trị mới trong tương lai.</p>
+              </li>
+            </ol>
           </div>
         </div>
       </div>
@@ -262,29 +275,83 @@
       }).catch(() => {});
     })();
 
-    // recurring themes, counted from his own text at build time
-    fetch('data/topics.json').then(r => r.json()).then(list => {
-      const max = Math.max(...list.map(t => t.n)), min = Math.min(...list.map(t => t.n));
+    // recurring themes, counted from his own text at build time -> a packed word cloud shaped like a cloud
+    (function () {
       const box = document.getElementById('topics');
-      // biggest words in the middle, smaller ones drifting outwards, like a cloud
-      const sorted = list.slice().sort((a, b) => b.n - a.n), left = [], right = [];
-      sorted.forEach((item, i) => (i % 2 ? left : right).push(item));
-      const order = left.reverse().concat(right);
-      const hues = ['#d9482f', '#c2437c', '#7c4dcc', '#1f9d86', '#2f84c9', '#e0592f'];
-      const tilts = [-3, 2, -1.5, 3, -2.5, 1.5, 0];
-      order.forEach(({ t, n }, i) => {
-        const a = document.createElement('a');
-        a.href = 'read.html?q=' + q(t);
-        const k = (Math.sqrt(n) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);   // 0..1
-        a.style.fontSize = 'calc(var(--cs, 1) * ' + (1.15 + k * 2.9).toFixed(2) + 'rem)';
-        a.style.setProperty('--c', hues[(sorted.findIndex(s => s.t === t)) % hues.length]);
-        a.style.setProperty('--tilt', tilts[i % tilts.length] + 'deg');
-        a.dataset.n = n.toLocaleString('vi-VN') + ' lần';
-        a.title = t + ' · ' + a.dataset.n + ' trong sách';
-        a.textContent = t;
-        box.appendChild(a);
+      const art = box.parentElement;
+      const hues = ['#d9482f', '#c2437c', '#7c4dcc', '#1f9d86', '#2f84c9', '#e0592f', '#b83280', '#5b6bd6'];
+      const probe = document.createElement('canvas').getContext('2d');
+      let data = [], lastW = 0;
+
+      // same silhouette as the SVG cloud (1000 x 640 space); m = how far inside the edge a word must stay
+      function inCloud(X, Y, m) {
+        if (Y > 340 + m && Y < 570 - m && X > 70 + m && X < 930 - m) {                        // flat bottom with rounded ends
+          const cx = X < 185 ? 185 : X > 815 ? 815 : X;
+          if ((X - cx) ** 2 + (Y - 455) ** 2 <= (115 - m) ** 2) return true;
+        }
+        const C = [[215, 400, 140], [410, 272, 190], [650, 262, 195], [830, 410, 145], [535, 215, 130]];
+        return C.some(([cx, cy, r]) => (X - cx) ** 2 + (Y - cy) ** 2 <= (r - m) ** 2);
+      }
+
+      function layout() {
+        const W = box.clientWidth, H = box.clientHeight;
+        if (!W || !H || !data.length) return;
+        lastW = W;
+        box.textContent = '';
+        const sx = 1000 / W, sy = 640 / H;
+        const max = data[0].w, min = data[data.length - 1].w;
+        const fmax = Math.min(W * 0.078, 84), fmin = Math.max(12, W * 0.0145);
+        const placed = [];
+        const hit = (r) => placed.some(p => r.x < p.x + p.w && r.x + r.w > p.x && r.y < p.y + p.h && r.y + r.h > p.y);
+        const fits = (r) => {
+          const m = 9, xs = [r.x, r.x + r.w / 2, r.x + r.w], ys = [r.y, r.y + r.h / 2, r.y + r.h];
+          return xs.every(x => ys.every(y => inCloud(x * sx, y * sy, m)));
+        };
+        data.forEach((item, i) => {
+          const k = (Math.sqrt(item.w) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);
+          const f = fmin + (fmax - fmin) * Math.pow(k, 0.85);
+          const sans = i % 3 === 1 && i > 2;
+          const font = '600 ' + f + 'px ' + (sans ? '"Be Vietnam Pro"' : 'Fraunces');
+          probe.font = font;
+          const tw = probe.measureText(item.t).width, th = f * 0.92;
+          const vertical = i > 4 && f < fmax * 0.7 && (i * 7) % 4 === 0;
+          const bw = (vertical ? th : tw) + f * 0.12, bh = (vertical ? tw : th) + f * 0.05;
+          // walk an outward spiral from the middle until the word fits in the cloud without touching another word
+          for (let t = 0, s = 0; t < 4200; t++, s += 0.16) {
+            const rad = 2 + s * 2.1;
+            const x = W / 2 + Math.cos(s) * rad * 1.55 - bw / 2, y = H * 0.56 + Math.sin(s) * rad - bh / 2;
+            const r = { x, y, w: bw, h: bh };
+            if (!fits(r) || hit(r)) continue;
+            placed.push(r);
+            const a = document.createElement('a');
+            a.href = 'read.html?q=' + q(item.t);
+            a.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + bw + 'px;height:' + bh + 'px;--c:' + hues[i % hues.length] +
+              ';--d:' + (i * 28) + 'ms;font-weight:600;font-size:' + f + 'px;font-family:' + (sans ? '"Be Vietnam Pro", system-ui, sans-serif' : 'Fraunces, Georgia, serif');
+            a.dataset.n = item.n.toLocaleString('vi-VN') + ' lần';
+            a.title = item.t + ' · ' + a.dataset.n + ' trong sách';
+            const span = document.createElement('span');
+            span.textContent = item.t;
+            if (vertical) span.className = 'v';
+            a.appendChild(span);
+            box.appendChild(a);
+            break;
+          }
+        });
+      }
+
+      fetch('data/topics.json?v=4').then(r => r.json()).then(list => {
+        // the things Tin loved (technology, learning, curiosity) get a little extra room, so they are never lost among the small words
+        const loved = ['ước mơ', 'sáng tạo', 'khám phá', 'học hỏi', 'công nghệ', 'dữ liệu', 'vũ trụ', 'hy vọng', 'khoa học'];
+        data = list.map(x => Object.assign({ w: loved.includes(x.t) ? Math.max(x.n, 140) : x.n }, x)).sort((a, b) => b.w - a.w);
+        const go = () => layout();
+        const fonts = document.fonts && document.fonts.load
+          ? Promise.race([Promise.all([document.fonts.load('600 40px Fraunces'), document.fonts.load('600 20px "Be Vietnam Pro"')]), new Promise(r => setTimeout(r, 1500))])
+          : Promise.resolve();
+        fonts.then(go);
+        let timer;
+        window.addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(() => { if (Math.abs(box.clientWidth - lastW) > 6) layout(); }, 180); });
       });
-    });
+    })();
 
     // people Tin quotes in the book (every name appears in the text)
     const people = [

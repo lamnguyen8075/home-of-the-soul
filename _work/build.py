@@ -203,13 +203,13 @@ json.dump(book, open(f"{ROOT}/data/book.json", "w"), ensure_ascii=False, separat
 print("total pages", total_pages, "words", book["totals"]["words"])
 
 # ---- recurring themes (counted from his own text) -> data/topics.json -----
-TOPICS = ["tương lai", "nhận thức", "tư duy", "thế giới", "hiện thực", "con người", "thông tin", "tự do",
-          "khoa học", "hy vọng", "khám phá", "ước mơ", "sáng tạo", "học hỏi", "dữ liệu", "vũ trụ", "công nghệ"]
+TOPICS = ['con người', 'thế giới', 'hiện thực', 'bản thân', 'thay đổi', 'tồn tại', 'nhận thức', 'sự thật', 'phát triển', 'chân lý', 'thời gian', 'cuộc đời', 'giới hạn', 'hành động', 'tương lai', 'tư duy', 'niềm tin', 'giá trị', 'tâm trí', 'quá khứ', 'hiện tại', 'thông tin', 'kiến thức', 'tự do', 'suy nghĩ', 'ảnh hưởng', 'khả năng', 'cuộc sống', 'năng lực', 'kỳ vọng', 'mâu thuẫn', 'khoảnh khắc', 'sức mạnh', 'chấp nhận', 'động lực', 'tư tưởng', 'lựa chọn', 'bản chất', 'quyết định', 'khái niệm', 'thiên kiến', 'mục tiêu', 'cảm xúc', 'ý tưởng', 'con đường', 'khác biệt', 'tự nhiên', 'hợp lý', 'nhu cầu', 'quan điểm', 'trật tự', 'thích nghi', 'xã hội', 'cơ hội', 'ý thức', 'đạo đức', 'đúng sai', 'xung đột', 'chính nghĩa', 'phán xét', 'trí tuệ', 'cộng đồng', 'nhân loại', 'nhân tính', 'thiện ác', 'lý tưởng', 'quy luật', 'trách nhiệm', 'lý trí', 'lịch sử', 'ý nghĩa', 'tiềm năng', 'thành công', 'tâm hồn', 'chấp niệm', 'khoa học', 'tầm nhìn', 'quyền lực', 'ngôn ngữ', 'ý chí', 'định kiến', 'ảo tưởng', 'văn minh', 'tuyệt đối', 'trải nghiệm', 'hoài bão', 'hy vọng', 'môi trường', 'thế hệ', 'nghịch lý', 'phương pháp', 'sinh tồn', 'hoàn hảo', 'chiến tranh', 'vô hạn', 'ước mơ', 'sáng tạo', 'khám phá', 'học hỏi', 'dữ liệu', 'vũ trụ', 'công nghệ']
 alltext = []
 for sec in book["sections"]:
     for pg in json.load(open(f"{ROOT}/data/{sec['id']}.json"))["pages"]:
         alltext += [b["x"].lower() for b in pg if b["t"] != "n"]
 alltext = "\n".join(alltext)
-topics = sorted(({"t": t, "n": alltext.count(t)} for t in TOPICS), key=lambda x: -x["n"])
+import re as _re
+topics = sorted(({"t": t, "n": len(_re.findall(r"(?<!\w)" + _re.escape(t) + r"(?!\w)", alltext))} for t in TOPICS), key=lambda x: -x["n"])
 json.dump(topics, open(f"{ROOT}/data/topics.json", "w"), ensure_ascii=False)
 print("topics:", [(x["t"], x["n"]) for x in topics])
