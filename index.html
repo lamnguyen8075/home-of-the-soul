@@ -149,7 +149,7 @@
         <div class="explore-group reveal">
           <h3>Những chủ đề Tin hay nghĩ tới</h3>
           <p class="hint">chữ càng to, Tin càng nhắc nhiều · chạm vào một chữ để xem Tin viết gì</p>
-          <div class="cloud" id="topics" role="list"></div>
+          <div class="cloud" id="topics"></div>
         </div>
 
         <div class="explore-group reveal">
@@ -256,7 +256,6 @@
       order.forEach(({ t, n }, i) => {
         const a = document.createElement('a');
         a.href = 'read.html?q=' + q(t);
-        a.setAttribute('role', 'listitem');
         const k = (Math.sqrt(n) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);   // 0..1
         a.style.fontSize = (1.15 + k * 2.9).toFixed(2) + 'rem';
         a.style.setProperty('--c', hues[(sorted.findIndex(s => s.t === t)) % hues.length]);
