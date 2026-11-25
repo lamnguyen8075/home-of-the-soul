@@ -165,7 +165,7 @@ def build_html(pages):
                 else:
                     out.append(block(b))
         if s["id"] == "end":
-            out.append('<div class="closing">Sự yêu thương của gia đình<br>Nguyễn Hồng Phúc (Tin) · 1991 – 2025</div>')
+            out.append('<div class="closing">Xây cùng với sự yêu thương của gia đình<br>Nguyễn Hồng Phúc (Tin) · 1991 – 2025</div>')
         out.append("</div>")
     out.append("</body></html>")
     return "\n".join(out)

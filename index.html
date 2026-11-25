@@ -148,8 +148,8 @@
 
         <div class="explore-group reveal">
           <h3>Những chủ đề Tin hay nghĩ tới</h3>
-          <p class="hint">số lần xuất hiện trong sách</p>
-          <div class="chips" id="topics"></div>
+          <p class="hint">chữ càng to, Tin càng nhắc nhiều · chạm vào một chữ để xem Tin viết gì</p>
+          <div class="cloud" id="topics" role="list"></div>
         </div>
 
         <div class="explore-group reveal">
@@ -201,7 +201,7 @@
   <footer class="footer">
     <div class="container">
       <div class="brand"><span class="brand-mark"></span>Nhà của Tin</div>
-      <p>Sự yêu thương của gia đình · Nguyễn Hồng Phúc (Tin) · 1991 – 2025</p>
+      <p>Xây cùng với sự yêu thương của gia đình · Nguyễn Hồng Phúc (Tin) · 1991 – 2025</p>
     </div>
   </footer>
 
@@ -247,13 +247,23 @@
     fetch('data/topics.json').then(r => r.json()).then(list => {
       const max = Math.max(...list.map(t => t.n)), min = Math.min(...list.map(t => t.n));
       const box = document.getElementById('topics');
-      list.forEach(({ t, n }) => {
+      // biggest words in the middle, smaller ones drifting outwards, like a cloud
+      const sorted = list.slice().sort((a, b) => b.n - a.n), left = [], right = [];
+      sorted.forEach((item, i) => (i % 2 ? left : right).push(item));
+      const order = left.reverse().concat(right);
+      const hues = ['#d9482f', '#c2437c', '#7c4dcc', '#1f9d86', '#2f84c9', '#e0592f'];
+      const tilts = [-3, 2, -1.5, 3, -2.5, 1.5, 0];
+      order.forEach(({ t, n }, i) => {
         const a = document.createElement('a');
-        a.className = 'chip';
         a.href = 'read.html?q=' + q(t);
+        a.setAttribute('role', 'listitem');
         const k = (Math.sqrt(n) - Math.sqrt(min)) / (Math.sqrt(max) - Math.sqrt(min) || 1);   // 0..1
-        a.style.fontSize = (0.95 + k * 0.7).toFixed(2) + 'rem';
-        a.innerHTML = t + ' <i>' + n.toLocaleString('vi-VN') + '</i>';
+        a.style.fontSize = (1.15 + k * 2.9).toFixed(2) + 'rem';
+        a.style.setProperty('--c', hues[(sorted.findIndex(s => s.t === t)) % hues.length]);
+        a.style.setProperty('--tilt', tilts[i % tilts.length] + 'deg');
+        a.dataset.n = n.toLocaleString('vi-VN') + ' lần';
+        a.title = t + ' · ' + a.dataset.n + ' trong sách';
+        a.textContent = t;
         box.appendChild(a);
       });
     });
