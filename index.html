@@ -12,7 +12,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500..700&family=Lora:ital,wght@0,400;0,500;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=28">
+  <script>
+    // refreshing the home page always starts again from the top (no remembered scroll position, no #section in the address)
+    (function () {
+      try {
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+        var reload = nav ? nav.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
+        if (!reload) return;
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+        var top = function () { window.scrollTo(0, 0); };
+        top();
+        document.addEventListener('DOMContentLoaded', top);
+        window.addEventListener('load', function () { top(); setTimeout(top, 50); setTimeout(top, 250); });
+        window.addEventListener('pageshow', top);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="home">
 
@@ -232,12 +249,23 @@
 
   <footer class="footer">
     <div class="container">
-      <div class="brand"><span class="brand-mark"></span>Nhà của Tin</div>
+      <div class="brand"><span class="brand-mark" id="footSun"></span>Nhà của Tin</div>
       <p>Xây cùng với sự yêu thương của gia đình · Nguyễn Hồng Phúc (Tin) · 1991 – 2025</p>
     </div>
   </footer>
 
+  <script src="stats-config.js"></script>
+  <script src="track.js"></script>
   <script>
+    // a quiet little secret: clicking the sun in the footer opens the visit statistics
+    (function () {
+      var sun = document.getElementById('footSun');
+      if (!sun) return;
+      sun.addEventListener('click', function () {
+        sun.style.transform = 'rotate(180deg) scale(1.2)';
+        setTimeout(function () { location.href = 'stats.html'; }, 180);
+      });
+    })();
     const q = (s) => encodeURIComponent(s);
 
     // sun rays behind the portrait

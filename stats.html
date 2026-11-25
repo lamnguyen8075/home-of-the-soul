@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#fff1e8">
+  <title>Thống kê — Nhà của Tin</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=28">
+  <style>
+    .st { width: min(1080px, 94vw); margin: 0 auto; padding: calc(24px + env(safe-area-inset-top)) 0 4rem; }
+    .st-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+    .st-top h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0; }
+    .st-top a.back { color: var(--ink-soft); text-decoration: none; font: 600 .9rem var(--font-ui); }
+    .st-top a.back:hover { color: var(--coral-deep); }
+    .st-src { font: .8rem var(--font-ui); color: var(--ink-soft); margin: .2rem 0 0; }
+    .st-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 26px; box-shadow: var(--glass-rim), var(--glass-drop);
+      -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%); padding: clamp(1rem, 3vw, 1.6rem); }
+    .range { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1.2rem; }
+    .pill { border: 1px solid var(--glass-border); background: rgba(255, 255, 255, .55); color: var(--ink); border-radius: 999px; padding: .5rem .95rem; min-height: 40px;
+      font: 600 .86rem var(--font-ui); cursor: pointer; }
+    .pill[aria-pressed="true"] { background: var(--coral-deep); color: #fff; border-color: transparent; }
+    .range input[type="date"] { font: 500 .9rem var(--font-ui); padding: .45rem .6rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, .7); color: var(--ink); min-height: 40px; }
+    .range .sep { color: var(--ink-soft); }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-bottom: 1.2rem; }
+    .kpi { padding: 1rem 1.1rem; border-radius: 22px; background: rgba(255, 255, 255, .6); border: 1px solid rgba(255, 255, 255, .8); }
+    .kpi b { display: block; font: 600 clamp(1.5rem, 4vw, 2.1rem) var(--font-display); color: var(--coral-deep); line-height: 1.1; }
+    .kpi span { font: .78rem var(--font-ui); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+    .chart { display: flex; align-items: flex-end; gap: 2px; height: 170px; padding: .4rem 0 0; }
+    .chart .bar { flex: 1; min-width: 2px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, #ff7a59, #e8497e 70%, #b479ee); position: relative; min-height: 2px; opacity: .9; }
+    .chart .bar.zero { background: rgba(122, 95, 110, .2); opacity: 1; }
+    .chart .bar:hover { opacity: 1; filter: brightness(1.08); }
+    .chart .bar::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); white-space: nowrap; pointer-events: none;
+      font: 600 .72rem var(--font-ui); background: #fff; color: var(--ink); padding: .25rem .55rem; border-radius: 999px; box-shadow: 0 8px 18px -8px rgba(90, 40, 50, .4); opacity: 0; z-index: 2; }
+    .chart .bar:hover::after { opacity: 1; }
+    .axis { display: flex; justify-content: space-between; font: .74rem var(--font-ui); color: var(--ink-soft); margin-top: .4rem; }
+    .tabs { display: flex; gap: .5rem; margin: 1.4rem 0 .8rem; }
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: .92rem; }
+    th { text-align: left; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); padding: .5rem .6rem; border-bottom: 1px solid rgba(122, 95, 110, .2); white-space: nowrap; }
+    td { padding: .65rem .6rem; border-bottom: 1px solid rgba(122, 95, 110, .12); vertical-align: middle; }
+    th.n, td.n { text-align: right; font-variant-numeric: tabular-nums; }
+    td .share { display: block; height: 5px; border-radius: 4px; background: linear-gradient(90deg, #ff7a59, #e8497e, #9158dc); margin-top: .35rem; }
+    .flag { font-size: 1.25rem; margin-right: .4rem; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; }
+    .empty { text-align: center; padding: 2.4rem 1rem; color: var(--ink-soft); font-family: var(--font-ui); }
+    .note { font: .8rem/1.6 var(--font-ui); color: var(--ink-soft); margin: 1.2rem 0 0; }
+    @media (max-width: 720px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <main class="st">
+    <div class="st-top">
+      <div>
+        <h1>Thống kê truy cập</h1>
+        <p class="st-src" id="src">Đang tải…</p>
+      </div>
+      <a class="back" href="index.html">← Về trang chủ</a>
+    </div>
+
+    <section class="st-card">
+      <div class="range" id="range">
+        <button class="pill" data-d="1">Hôm nay</button>
+        <button class="pill" data-d="7">7 ngày</button>
+        <button class="pill" data-d="30">30 ngày</button>
+        <button class="pill" data-d="90">90 ngày</button>
+        <button class="pill" data-d="0">Tất cả</button>
+        <span class="sep">·</span>
+        <input type="date" id="from" aria-label="Từ ngày"> <span class="sep">→</span> <input type="date" id="to" aria-label="Đến ngày">
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><b id="kViews">0</b><span>Lượt xem</span></div>
+        <div class="kpi"><b id="kVis">0</b><span>Lượt khách</span></div>
+        <div class="kpi"><b id="kLoc">0</b><span>Địa điểm</span></div>
+        <div class="kpi"><b id="kAvg">0</b><span>Lượt xem / ngày</span></div>
+      </div>
+
+      <div class="chart" id="chart" aria-label="Lượt xem theo ngày"></div>
+      <div class="axis"><span id="axL"></span><span id="axR"></span></div>
+
+      <div class="tabs">
+        <button class="pill" id="tabLoc" aria-pressed="true">Theo địa điểm</button>
+        <button class="pill" id="tabIp" aria-pressed="false">Theo địa chỉ IP</button>
+      </div>
+      <div class="tbl-wrap"><table id="tbl"></table></div>
+
+      <p class="note">
+        “Lượt khách” là tổng số khách riêng biệt của từng ngày. Địa chỉ IP luôn được băm (mã hóa một chiều), không lưu IP gốc.
+        Mở trang này một lần là máy của bạn sẽ không bị tính vào lượt xem nữa.
+      </p>
+    </section>
+  </main>
+
+  <script src="stats-config.js"></script>
+  <script>
+    (function () {
+      var $ = function (s) { return document.querySelector(s); };
+      var C = window.NT_STATS || {};
+      var fmt = function (n) { return Math.round(n).toLocaleString('vi-VN'); };
+      var data = null, mode = 'loc';
+      var names; try { names = new Intl.DisplayNames(['vi'], { type: 'region' }); } catch (e) { names = null; }
+      var flag = function (cc) { return cc && cc.length === 2 ? String.fromCodePoint.apply(null, cc.toUpperCase().split('').map(function (c) { return 127397 + c.charCodeAt(0); })) : '🌐'; };
+      var iso = function (d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+      var addDays = function (s, n) { var d = new Date(s + 'T00:00:00'); d.setDate(d.getDate() + n); return iso(d); };
+      var dayN = function (a, b) { return Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 864e5) + 1; };
+      var showDate = function (s) { var p = s.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; };
+
+      // this browser belongs to the site owner now: stop counting its own visits
+      try { localStorage.setItem('nt_owner', '1'); } catch (e) {}
+
+      function load() {
+        $('#src').textContent = 'Đang tải…';
+        var url = 'data/stats.json';
+        var req;
+        if (C.api) {
+          var key = null; try { key = localStorage.getItem('nt_key'); } catch (e) {}
+          if (!key) { key = prompt('Nhập khóa xem thống kê:'); if (key) try { localStorage.setItem('nt_key', key); } catch (e) {} }
+          req = fetch(C.api.replace(/\/$/, '') + '/stats', { headers: { 'x-stats-key': key || '' } }).then(function (r) {
+            if (r.status === 401 || r.status === 403) { try { localStorage.removeItem('nt_key'); } catch (e) {} throw new Error('Khóa không đúng'); }
+            return r.json();
+          });
+        } else {
+          req = fetch(url + '?t=' + Date.now()).then(function (r) { return r.json(); });
+        }
+        req.then(function (d) {
+          data = d;
+          $('#src').textContent = (C.api ? 'Nguồn: máy chủ thống kê' : 'Nguồn: data/stats.json') +
+            (d.updatedAt ? ' · cập nhật ' + new Date(d.updatedAt).toLocaleString('vi-VN') : '');
+          var days = (d.daily || []).map(function (x) { return x.date; }).sort();
+          var last = days.length ? days[days.length - 1] : iso(new Date());
+          $('#to').value = last; $('#from').value = addDays(last, -29);
+          preset(30, true);
+        }).catch(function (e) { $('#src').textContent = 'Không tải được dữ liệu: ' + e.message; data = { daily: [], byLocation: [], byIp: [] }; render(); });
+      }
+
+      function preset(n, silent) {
+        document.querySelectorAll('#range .pill[data-d]').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.d === n)); });
+        var days = (data.daily || []).map(function (x) { return x.date; }).sort();
+        var last = days.length ? days[days.length - 1] : iso(new Date());
+        var first = days.length ? days[0] : last;
+        if (n === 0) { $('#from').value = first; $('#to').value = last; }
+        else if (n === 1) { $('#from').value = $('#to').value = iso(new Date()); }
+        else { var to = $('#to').value && silent ? $('#to').value : last; $('#to').value = to; $('#from').value = addDays(to, -(n - 1)); }
+        render();
+      }
+
+      function inRange(r, f, t) { return r.date >= f && r.date <= t; }
+
+      function render() {
+        var f = $('#from').value, t = $('#to').value;
+        if (!f || !t || f > t) return;
+        var daily = (data.daily || []).filter(function (r) { return inRange(r, f, t); });
+        var loc = (data.byLocation || []).filter(function (r) { return inRange(r, f, t); });
+        var ip = (data.byIp || []).filter(function (r) { return inRange(r, f, t); });
+        var views = daily.reduce(function (s, r) { return s + r.views; }, 0);
+        var vis = daily.reduce(function (s, r) { return s + r.visitors; }, 0);
+        var span = dayN(f, t);
+        var places = {}; loc.forEach(function (r) { places[r.country + '|' + r.city] = 1; });
+        $('#kViews').textContent = fmt(views); $('#kVis').textContent = fmt(vis);
+        $('#kLoc').textContent = fmt(Object.keys(places).length); $('#kAvg').textContent = span ? (views / span).toFixed(views / span < 10 ? 1 : 0) : '0';
+
+        // chart: one bar per day (or per month when the range is long)
+        var map = {}; daily.forEach(function (r) { map[r.date] = r.views; });
+        var bars = [];
+        if (span <= 120) { for (var i = 0; i < span; i++) { var d = addDays(f, i); bars.push([showDate(d), map[d] || 0]); } }
+        else {
+          var m = {}; daily.forEach(function (r) { var k = r.date.slice(0, 7); m[k] = (m[k] || 0) + r.views; });
+          Object.keys(m).sort().forEach(function (k) { bars.push([k.split('-')[1] + '/' + k.split('-')[0], m[k]]); });
+        }
+        var max = Math.max.apply(null, bars.map(function (b) { return b[1]; }).concat([1]));
+        $('#chart').innerHTML = bars.map(function (b) {
+          var h = b[1] ? Math.max(4, Math.round(b[1] / max * 100)) : 0;
+          return '<div class="bar' + (b[1] ? '' : ' zero') + '" style="height:' + (b[1] ? h + '%' : '2px') + '" data-tip="' + b[0] + ' · ' + fmt(b[1]) + ' lượt"></div>';
+        }).join('');
+        $('#axL').textContent = showDate(f); $('#axR').textContent = showDate(t);
+
+        // table
+        var rows, head;
+        if (mode === 'loc') {
+          var g = {};
+          loc.forEach(function (r) {
+            var k = r.country + '|' + r.city, o = g[k] || (g[k] = { cc: r.country, city: r.city, region: r.region, v: 0, u: 0, last: '' });
+            o.v += r.views; o.u += r.visitors; if (r.date > o.last) o.last = r.date;
+          });
+          rows = Object.keys(g).map(function (k) { return g[k]; }).sort(function (a, b) { return b.v - a.v; });
+          head = '<tr><th>Địa điểm</th><th class="n">Lượt xem</th><th class="n">Lượt khách</th><th class="n">Gần nhất</th></tr>';
+          var top = rows.length ? rows[0].v : 1;
+          rows = rows.map(function (o) {
+            var country = names ? (names.of(o.cc) || o.cc) : o.cc;
+            return '<tr><td><span class="flag">' + flag(o.cc) + '</span><b>' + (o.city || '—') + '</b>, ' + country + '<span class="share" style="width:' + Math.max(3, o.v / top * 100) + '%"></span></td>' +
+              '<td class="n">' + fmt(o.v) + '</td><td class="n">' + fmt(o.u) + '</td><td class="n">' + showDate(o.last) + '</td></tr>';
+          });
+        } else {
+          var gi = {};
+          ip.forEach(function (r) {
+            var o = gi[r.ipHash] || (gi[r.ipHash] = { h: r.ipHash, cc: r.country, city: r.city, v: 0, first: r.date, last: r.date });
+            o.v += r.views; if (r.date < o.first) o.first = r.date; if (r.date > o.last) o.last = r.date;
+          });
+          rows = Object.keys(gi).map(function (k) { return gi[k]; }).sort(function (a, b) { return b.v - a.v; });
+          head = '<tr><th>Địa chỉ IP (đã băm)</th><th>Địa điểm</th><th class="n">Lượt xem</th><th class="n">Lần đầu</th><th class="n">Gần nhất</th></tr>';
+          rows = rows.map(function (o) {
+            return '<tr><td class="mono">' + (o.h || '').slice(0, 12) + '</td><td><span class="flag">' + flag(o.cc) + '</span>' + (o.city || '—') + '</td>' +
+              '<td class="n">' + fmt(o.v) + '</td><td class="n">' + showDate(o.first) + '</td><td class="n">' + showDate(o.last) + '</td></tr>';
+          });
+        }
+        $('#tbl').innerHTML = rows.length ? head + rows.join('') : '<tr><td class="empty">Chưa có dữ liệu trong khoảng thời gian này.</td></tr>';
+      }
+
+      document.querySelectorAll('#range .pill[data-d]').forEach(function (b) { b.onclick = function () { preset(+b.dataset.d); }; });
+      ['#from', '#to'].forEach(function (s) { $(s).onchange = function () { document.querySelectorAll('#range .pill[data-d]').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); render(); }; });
+      $('#tabLoc').onclick = function () { mode = 'loc'; $('#tabLoc').setAttribute('aria-pressed', 'true'); $('#tabIp').setAttribute('aria-pressed', 'false'); render(); };
+      $('#tabIp').onclick = function () { mode = 'ip'; $('#tabIp').setAttribute('aria-pressed', 'true'); $('#tabLoc').setAttribute('aria-pressed', 'false'); render(); };
+      load();
+    })();
+  </script>
+</body>
+</html>
